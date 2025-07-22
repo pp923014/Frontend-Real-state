@@ -1,8 +1,12 @@
-# React + Vite
+# Real‑Estate Web App (React & Tailwind)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A fully responsive web application showcasing real estate listings, built with React.js and styled using Tailwind CSS. The project features dynamic property displays, filterable listings, and seamless client-side routing.
 
-Currently, two official plugins are available:
+## 🚀 Deployment
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Hosted on Hostinger with CI/CD integration. Clone the repo and run:
+
+```bash
+npm install
+npm run build
+npm run deploy
