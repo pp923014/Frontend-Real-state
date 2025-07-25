@@ -1,82 +1,71 @@
-import React, { useEffect, useState } from 'react'
-import { assets, projectsData } from '../assets/assets'
-import { motion } from 'framer-motion';
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import { motion } from "framer-motion";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { projectsData } from "../assets/assets"; // Adjust path
 
-const Projects = () => {
-
-const [currentIndex, setCurrentIndex] = useState(0);
-const [cardsToShow, setCardsToShow] = useState(1);
-
-useEffect(()=>{
-const updateCardsToShow = ()=>{
-    if(window.innerWidth >= 1024){
-        setCardsToShow(projectsData.length);
-    }else{
-        setCardsToShow(1)
-    }
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
 };
-    updateCardsToShow();
 
-    window.addEventListener('resize', updateCardsToShow);
-    return ()=> window.removeEventListener('resize', updateCardsToShow);
-
-},[])
-
-const nextProject = ()=>{
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % projectsData.length)
-}
-const prevProject = ()=>{
-    setCurrentIndex((prevIndex) => prevIndex === 0 ? projectsData.length - 1 : prevIndex - 1)
-}
-
+const ProjectCarousel = () => {
   return (
-    <motion.div 
-      initial={{opacity: 0, x:-200}}
-      transition={{duration: 1}}
-      whileInView={{opacity: 1, x:0}}
-      viewport={{once: true}}
-    className='container mx-auto py-4 pt-20 px-6 md:px-20 lg:px-32 my-20 w-full overflow-hidden' id='Projects'>
-      <h1 className='text-2xl sm:text-4xl font-bold mb-2 text-center'>Projects <span className="underline underline-offset-4 decoration-1 under font-light">Completed</span></h1>
-      <p className='text-center text-gray-500 mb-8 max-w-80 mx-auto'>Crafting Spaces, Building Legacies—Explore Our Portfolio</p>
+    <motion.div
+      className="my-12 px-4 md:px-10"
+      variants={fadeInUp}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true }}
+    >
+      <motion.h2
+        className="text-3xl font-bold text-center mb-10"
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        Featured Properties
+      </motion.h2>
 
-    {/* slider buttons */}
-
-    <div className='flex justify-end items-center mb-8'>
-        <button onClick={prevProject}
-        className='p-3 bg-gray-200 rounded mr-2' aria-label='Previous Project'>
-            <img src={assets.left_arrow} alt="Previous" />
-        </button>
-        <button onClick={nextProject}
-        className='p-3 bg-gray-200 rounded mr-2' aria-label='Next Project'>
-            <img src={assets.right_arrow} alt="Next" />
-        </button>
-    </div>
-
-    {/* project slider container */}
-    <div className='overflow-hidden'>
-        <div className='flex gap-8 transition-transform duration-500 ease-in-out'
-        style={{transform: `translateX(-${(currentIndex * 100) / cardsToShow}%)`}}
-        >
-            {projectsData.map((project, index)=>(
-               <div key={index} className='relative flex-shrink-0 w-full sm:w-1/4'>
-                <img src={project.image} alt={project.title} className='w-full h-auto mb-14'/>
-                <div className='absolute left-0 right-0 bottom-5 flex justify-center'>
-                    <div className='inline-block bg-white w-3/4 px-4 py-2 shadow-md'>
-                        <h2 className='text-xl font-semibold text-gray-800'>
-                            {project.title}
-                        </h2>
-                        <p className='text-gray-500 text-sm'>
-                            {project.price} <span className='px-1'>|</span> {project.location}
-                        </p>
-                    </div>
-                </div>
-               </div> 
-            ))}
-        </div>
-    </div>
-
+      <Swiper
+        slidesPerView={1}
+        spaceBetween={20}
+        breakpoints={{
+          640: { slidesPerView: 1 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3 },
+        }}
+        pagination={{ clickable: true }}
+        navigation
+        modules={[Navigation, Pagination]}
+        className="w-full"
+      >
+        {projectsData.map((project, index) => (
+          <SwiperSlide key={index}>
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition duration-300"
+            >
+              <img
+                src={project.image}
+                alt={project.title}
+                className="h-56 w-full object-cover"
+              />
+              <div className="p-4">
+                <h3 className="text-xl font-semibold">{project.title}</h3>
+                <p className="text-sm text-gray-600">{project.location}</p>
+                <p className="text-indigo-600 font-bold mt-2">{project.price}</p>
+              </div>
+            </motion.div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </motion.div>
-  )
-}
+  );
+};
 
-export default Projects
+export default ProjectCarousel;

@@ -24,7 +24,7 @@ const Testimonails = () => {
                     <img key={index} src={assets.star_icon} alt="" />
                 ))}
             </div>
-            <p className='text-gray-600'>{testimonial.text}</p>
+            <p className='text-gray-600 text-justify'>{testimonial.text}</p>
         </div>
     ))}
 </div>
