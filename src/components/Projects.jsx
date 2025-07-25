@@ -20,6 +20,7 @@ const ProjectCarousel = () => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true }}
+      id="Projects"
     >
       <motion.h2
         className="text-3xl font-bold text-center mb-10"
